@@ -4,18 +4,41 @@ Lightweight toolkit for AI-assisted design workflows — components, prompts, an
 
 ## Purpose
 
-A small collection of reusable utilities and patterns for building AI-powered design tools. Useful as a starting point for creative applications.
+A small collection of reusable utilities and patterns for building AI-powered design tools. Useful as a starting point or companion library for creative applications.
 
-## What's Inside (Planned)
+## What's Included
 
-- Prompt templates for design tasks
-- Color and layout helpers
-- Simple component scaffolds
-- Export utilities
+- **Prompt templates** for common design tasks
+- **Color utilities** (palettes, contrast, conversion)
+- **Layout helpers**
+- Simple export utilities
+
+## Project Structure
+
+```
+ai-design-kit/
+├── src/
+│   ├── color/
+│   ├── prompts/
+│   ├── layout/
+│   └── index.js
+├── examples/
+├── package.json
+└── README.md
+```
+
+## Usage
+
+```js
+import { generatePalette, promptTemplates } from 'ai-design-kit';
+
+const colors = generatePalette('#7c5cff', 5);
+const prompt = promptTemplates.styleTransfer('watercolor');
+```
 
 ## Status
 
-Just getting started. Open to ideas and contributions.
+Early stage. Open to ideas and contributions.
 
 ## License
 
