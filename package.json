@@ -1,0 +1,12 @@
+{
+  "name": "ai-design-kit",
+  "version": "0.1.0",
+  "description": "Toolkit for AI-assisted design workflows",
+  "main": "index.js",
+  "scripts": {
+    "dev": "echo \"Coming soon\""
+  },
+  "keywords": ["ai", "design", "toolkit", "creative", "prompts"],
+  "author": "LeoBaBoyy",
+  "license": "MIT"
+}
