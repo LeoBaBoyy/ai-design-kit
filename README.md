@@ -1,75 +1,92 @@
 # AI Design Kit
 
-Lightweight, practical toolkit for AI-assisted design workflows.
+Practical toolkit for AI-assisted design workflows and design-system foundations.
 
-This library provides reusable utilities for color manipulation, prompt engineering, layout helpers, and common design operations that creative tools and AI-powered apps often need.
+Generate color palettes, accessible themes, typography scales, and ready-to-use design tokens from a single brand color.
 
 ## Features
 
-- **Color utilities** — palette generation, contrast checking, color conversion, harmonious schemes
-- **Prompt templates** — ready-to-use prompts for style transfer, variation, refinement, icon sets, and more
-- **Layout helpers** — spacing scale, grid, stack, and responsive utilities
-- **Export helpers** — simple utilities for downloading canvas content and data
-- **TypeScript-friendly** structure (plain JS with JSDoc for now)
+### Color
+- Palette generation (simple + harmonious)
+- Color harmony (complementary, analogous, triadic, split-complementary, tetradic)
+- Full conversion utilities (`hex ↔ rgb ↔ hsl`)
+- WCAG contrast ratio + accessibility checks
+- Smart text color picker for any background
 
-## Installation
+### Theme & Tokens
+- **One-color theme generator** → full light + dark semantic themes
+- Design token creator (colors, typography, radius, shadows)
+- Export to CSS custom properties (copy-paste ready)
 
-```bash
-npm install ai-design-kit
-# or just copy the src folder into your project
-```
+### Typography
+- Modular type scale generator (Major Third, Perfect Fourth, Golden Ratio, etc.)
+- Named scales (`xs` → `4xl`)
+- Line-height suggestions
+
+### Layout & Export
+- Spacing scale, grid, stack, cluster helpers
+- Download helpers for canvas, JSON, and text
+
+### Prompts
+- High-quality prompt templates for style transfer, variation, refinement, icon sets, layout critique, and more
 
 ## Quick Start
 
 ```js
 import {
-  generatePalette,
-  generateHarmoniousPalette,
-  contrastRatio,
+  createDesignTokens,
+  tokensToCSS,
+  generateTheme,
+  pickTextColor,
+  generateNamedTypeScale,
   promptTemplates,
-  spacing,
-  grid,
 } from 'ai-design-kit';
 
-// Generate a palette from a base color
-const palette = generatePalette('#7c5cff', 6);
-console.log(palette);
+// Generate a complete design system from one brand color
+const tokens = createDesignTokens('#7c5cff');
 
-// Check accessibility contrast
-const ratio = contrastRatio('#ffffff', '#7c5cff');
-console.log(`Contrast ratio: ${ratio.toFixed(2)}`);
+console.log(tokens.color.brand);     // 50 → 950 scale
+console.log(tokens.typography);      // xs → 4xl
+console.log(tokens.radius);          // sm → full
+console.log(tokens.shadow);          // sm → xl
 
-// Use a prompt template
-const prompt = promptTemplates.styleTransfer('watercolor illustration');
-console.log(prompt);
+// Get CSS variables
+const css = tokensToCSS(tokens);
+// → :root { --color-brand-500: #7c5cff; --primary: ... }
 
-// Layout helpers
-const styles = {
-  ...grid(12, 16),
-  padding: spacing.lg,
-};
+// Pick accessible text color
+const textColor = pickTextColor('#7c5cff'); // '#ffffff' or '#000000'
+
+// Typography scale
+const type = generateNamedTypeScale(16, 'majorThird');
+
+// Prompt helpers
+const prompt = promptTemplates.styleTransfer('watercolor');
 ```
+
+## Live Demos
+
+- `examples/full-playground.html` — Interactive theme + type + CSS generator
+- `examples/color-playground.html` — Color harmony playground
+- `examples/theme-demo.js` — Node example
 
 ## Project Structure
 
 ```
 src/
-├── color/
-│   ├── palette.js
-│   ├── convert.js
-│   └── harmony.js
-├── prompts/
-│   └── templates.js
-├── layout/
-│   └── helpers.js
-├── export/
-│   └── download.js
+├── color/          # Palette, conversion, harmony, contrast
+├── theme/          # Light/dark theme generator
+├── tokens/         # Design token creation + CSS export
+├── typography/     # Modular type scales
+├── prompts/        # Creative & design prompt templates
+├── layout/         # Spacing, grid, stack helpers
+├── export/         # Download utilities
 └── index.js
 ```
 
-## Status
+## Why this exists
 
-Actively developed. Open to contributions, ideas, and real-world usage feedback.
+When building creative tools or AI-powered design apps, you repeatedly need the same foundations: a solid color system, accessible text colors, consistent type scale, and exportable tokens. AI Design Kit gives you those building blocks in plain JavaScript with zero dependencies.
 
 ## License
 

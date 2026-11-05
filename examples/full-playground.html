@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Design Kit – Full Playground</title>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #eaeaea;
+      --muted: #888;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      line-height: 1.5;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    .subtitle { color: var(--muted); margin-bottom: 2rem; }
+    .controls {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    label { font-size: 0.875rem; color: var(--muted); }
+    input[type="color"] {
+      width: 48px; height: 36px;
+      border: none; background: none; cursor: pointer;
+    }
+    select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+    }
+    section { margin-bottom: 2.5rem; }
+    h2 { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .palette { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .swatch {
+      width: 64px; height: 64px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 3px;
+      font-size: 0.6rem;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+    }
+    .type-sample {
+      margin-bottom: 0.5rem;
+    }
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 0.75rem;
+      overflow-x: auto;
+      max-height: 240px;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI Design Kit</h1>
+  <p class="subtitle">Generate palettes, themes, typography and design tokens from one brand color.</p>
+
+  <div class="controls">
+    <label>Brand color <input type="color" id="brand" value="#7c5cff" /></label>
+    <label>Type ratio
+      <select id="ratio">
+        <option value="majorThird">Major Third (1.25)</option>
+        <option value="perfectFourth">Perfect Fourth (1.333)</option>
+        <option value="minorThird">Minor Third (1.2)</option>
+        <option value="goldenRatio">Golden Ratio (1.618)</option>
+      </select>
+    </label>
+  </div>
+
+  <section>
+    <h2>Brand Scale</h2>
+    <div class="palette" id="brandScale"></div>
+  </section>
+
+  <section>
+    <h2>Light Theme Semantic Colors</h2>
+    <div class="palette" id="lightTheme"></div>
+  </section>
+
+  <section>
+    <h2>Typography Scale</h2>
+    <div id="typeScale"></div>
+  </section>
+
+  <section>
+    <h2>CSS Variables (copy-paste ready)</h2>
+    <pre id="cssOutput"></pre>
+  </section>
+
+  <script type="module">
+    import {
+      createDesignTokens,
+      tokensToCSS,
+      generateNamedTypeScale,
+    } from '../src/index.js';
+
+    const brandInput = document.getElementById('brand');
+    const ratioSelect = document.getElementById('ratio');
+
+    function renderSwatches(containerId, colors) {
+      const el = document.getElementById(containerId);
+      const entries = Array.isArray(colors)
+        ? colors.map((c) => [c, c])
+        : Object.entries(colors);
+
+      el.innerHTML = entries
+        .map(([key, value]) => {
+          const label = Array.isArray(colors) ? value : key;
+          return `<div class="swatch" style="background:${value}" title="${label}: ${value}">${label}</div>`;
+        })
+        .join('');
+    }
+
+    function update() {
+      const brand = brandInput.value;
+      const ratio = ratioSelect.value;
+      const tokens = createDesignTokens(brand, { typeRatio: ratio });
+
+      renderSwatches('brandScale', tokens.color.brand);
+      renderSwatches('lightTheme', {
+        primary: tokens.color.light.primary,
+        secondary: tokens.color.light.secondary,
+        muted: tokens.color.light.muted,
+        accent: tokens.color.light.accent,
+        destructive: tokens.color.light.destructive,
+        background: tokens.color.light.background,
+      });
+
+      const typeEl = document.getElementById('typeScale');
+      typeEl.innerHTML = Object.entries(tokens.typography)
+        .map(([name, size]) =>
+          `<div class="type-sample" style="font-size:${size}px">${name} — ${size}px</div>`
+        )
+        .join('');
+
+      document.getElementById('cssOutput').textContent = tokensToCSS(tokens);
+    }
+
+    brandInput.addEventListener('input', update);
+    ratioSelect.addEventListener('change', update);
+    update();
+  </script>
+</body>
+</html>
