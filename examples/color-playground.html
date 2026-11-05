@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Design Kit – Color Playground</title>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #eaeaea;
+      --muted: #888;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      line-height: 1.5;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    p { color: var(--muted); margin-bottom: 2rem; }
+    .controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    input[type="color"] {
+      width: 48px;
+      height: 36px;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+    .palette {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .swatch {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 4px;
+      font-size: 0.65rem;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+    section { margin-bottom: 2.5rem; }
+    h2 { font-size: 1rem; margin-bottom: 0.75rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <h1>AI Design Kit – Color Playground</h1>
+  <p>Live demo of palette generation and color harmony utilities.</p>
+
+  <div class="controls">
+    <label>Base color <input type="color" id="baseColor" value="#7c5cff" /></label>
+  </div>
+
+  <section>
+    <h2>Simple Palette</h2>
+    <div class="palette" id="simplePalette"></div>
+  </section>
+
+  <section>
+    <h2>Harmonious Palette</h2>
+    <div class="palette" id="harmoniousPalette"></div>
+  </section>
+
+  <section>
+    <h2>Complementary</h2>
+    <div class="palette" id="complementary"></div>
+  </section>
+
+  <section>
+    <h2>Analogous</h2>
+    <div class="palette" id="analogous"></div>
+  </section>
+
+  <section>
+    <h2>Triadic</h2>
+    <div class="palette" id="triadic"></div>
+  </section>
+
+  <script type="module">
+    import {
+      generatePalette,
+      generateHarmoniousPalette,
+      complementary,
+      analogous,
+      triadic,
+    } from '../src/index.js';
+
+    const baseInput = document.getElementById('baseColor');
+
+    function renderSwatches(containerId, colors) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = colors
+        .map(
+          (c) =>
+            `<div class="swatch" style="background:${c}">${c}</div>`
+        )
+        .join('');
+    }
+
+    function update() {
+      const base = baseInput.value;
+      renderSwatches('simplePalette', generatePalette(base, 6));
+      renderSwatches('harmoniousPalette', generateHarmoniousPalette(base, 6));
+      renderSwatches('complementary', complementary(base));
+      renderSwatches('analogous', analogous(base));
+      renderSwatches('triadic', triadic(base));
+    }
+
+    baseInput.addEventListener('input', update);
+    update();
+  </script>
+</body>
+</html>

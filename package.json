@@ -1,12 +1,34 @@
 {
   "name": "ai-design-kit",
-  "version": "0.1.0",
-  "description": "Toolkit for AI-assisted design workflows",
-  "main": "index.js",
+  "version": "0.2.0",
+  "description": "Lightweight toolkit for AI-assisted design workflows — color, prompts, layout, and export utilities",
+  "type": "module",
+  "main": "src/index.js",
   "scripts": {
-    "dev": "echo \"Coming soon\""
+    "example": "node examples/basic-usage.js",
+    "test": "node --test test/*.test.js"
   },
-  "keywords": ["ai", "design", "toolkit", "creative", "prompts"],
+  "keywords": [
+    "ai",
+    "design",
+    "color",
+    "palette",
+    "prompts",
+    "layout",
+    "creative",
+    "toolkit",
+    "generative"
+  ],
   "author": "LeoBaBoyy",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LeoBaBoyy/ai-design-kit.git"
+  },
+  "files": [
+    "src",
+    "examples",
+    "LICENSE",
+    "README.md"
+  ]
 }

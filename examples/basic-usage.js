@@ -1,13 +1,34 @@
-import { generatePalette, promptTemplates, contrastRatio } from '../src/index.js';
+import {
+  generatePalette,
+  generateHarmoniousPalette,
+  complementary,
+  analogous,
+  triadic,
+  contrastRatio,
+  isAccessible,
+  promptTemplates,
+  spacing,
+  grid,
+} from '../src/index.js';
 
-// Generate a palette from a base color
-const palette = generatePalette('#7c5cff', 5);
-console.log('Palette:', palette);
+console.log('=== Palette Generation ===');
+console.log('Simple palette:', generatePalette('#7c5cff', 5));
+console.log('Harmonious palette:', generateHarmoniousPalette('#7c5cff', 5));
 
-// Use a prompt template
-const prompt = promptTemplates.styleTransfer('watercolor illustration');
-console.log('Prompt:', prompt);
+console.log('\n=== Color Harmony ===');
+console.log('Complementary:', complementary('#7c5cff'));
+console.log('Analogous:', analogous('#7c5cff'));
+console.log('Triadic:', triadic('#7c5cff'));
 
-// Check contrast
+console.log('\n=== Contrast ===');
 const ratio = contrastRatio('#ffffff', '#7c5cff');
-console.log('Contrast ratio:', ratio.toFixed(2));
+console.log(`Contrast ratio: ${ratio.toFixed(2)}`);
+console.log('Accessible (AA)?', isAccessible('#ffffff', '#7c5cff'));
+
+console.log('\n=== Prompt Templates ===');
+console.log(promptTemplates.styleTransfer('studio ghibli'));
+console.log(promptTemplates.colorPalette('calm and focused'));
+
+console.log('\n=== Layout ===');
+console.log('Spacing scale:', spacing);
+console.log('Grid styles:', grid(12, 16));
