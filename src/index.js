@@ -22,6 +22,15 @@ export {
   tetradic,
 } from './color/harmony.js';
 
+// Accessibility
+export {
+  simulateColorBlind,
+  simulateAll,
+  COLOR_BLIND_TYPES,
+} from './a11y/colorblind.js';
+
+export { fixContrast, auditPairs } from './a11y/fixContrast.js';
+
 // Prompts
 export { promptTemplates } from './prompts/templates.js';
 
@@ -48,7 +57,6 @@ export {
 } from './theme/generator.js';
 
 // Design Tokens
-export {
-  createDesignTokens,
-  tokensToCSS,
-} from './tokens/create.js';
+export { createDesignTokens, tokensToCSS } from './tokens/create.js';
+
+export { tokensToTailwind, tokensToTailwindConfig } from './tokens/tailwind.js';
